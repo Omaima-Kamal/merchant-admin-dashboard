@@ -1,0 +1,48 @@
+server:
+  port: 5455
+#  ssl:
+#    key-store: /work/merchant-admin/promo-engine-dev.p12
+#    key-store-password: changeit
+#    key-store-type: PKCS12
+    # key-alias: commerce
+
+#external-payment:
+#  ssl:
+#    trust-store: file:/work/merchant-admin/truststore.p12
+#    trust-store-password: changeit
+
+spring:
+  application:
+    name: merchant-admin-backend
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/merchant
+
+  datasource:
+    url: jdbc:postgresql://45.92.11.118:5432/superpay_sandbox?currentSchema=ecommerce
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+app:
+  upload:
+    dir: uploads/products
+    base-url: http://localhost:5455/images
+  keycloak:
+    client-id: merchant-admin
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+      - http://localhost:5455
+      - https://api.promo-engine.superpay.com:5454
